@@ -338,7 +338,7 @@
                 feat_list: [],
                 url: "",
                 visible: false,
-                activeName: "second",
+                // activeName: "second",
                 wait_return: "等待上传",
                 wait_upload: "等待上传",
                 loading: false,

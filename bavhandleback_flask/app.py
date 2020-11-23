@@ -4,7 +4,7 @@ import os
 import shutil
 from datetime import timedelta
 
-import torch
+# import torch
 from flask import *
 
 import bavhandleback_flask.core.main
@@ -52,14 +52,14 @@ def upload_file():
         file.save(src_path)
         shutil.copy(src_path, './tmp/ct')
         image_path = os.path.join('./tmp/ct', file.filename)
-        # print(image_path)
+        print(image_path)
         pid, image_info = bavhandleback_flask.core.main.c_main(image_path, current_app.model)
         return jsonify({'status': 1,
                         'image_url': 'http://127.0.0.1:5003/tmp/image/' + pid,
                         'draw_url': 'http://127.0.0.1:5003/tmp/draw/' + pid,
                       'image_info': image_info
                        })
-
+        # return ""
 
     return jsonify({'status': 0})
 
@@ -86,18 +86,18 @@ def show_photo(file):
         pass
 
 
-def init_model():
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = net.Unet(1, 1).to(device)
-    # if torch.cuda.is_available():
-    #     model.load_state_dict(torch.load("./core/net/model.pth"))
-    # else:
-    #     model.load_state_dict(torch.load("./core/net/model.pth", map_location='cpu'))
-    model.eval()
-    return model
+# def init_model():
+#     # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#     # model = net.Unet(1, 1).to(device)
+#     # if torch.cuda.is_available():
+#     #     model.load_state_dict(torch.load("./core/net/model.pth"))
+#     # else:
+#     #     model.load_state_dict(torch.load("./core/net/model.pth", map_location='cpu'))
+#     # model.eval()
+#     return model
 
 
 if __name__ == '__main__':
     with app.app_context():
-        current_app.model = init_model()
-    app.run(host='127.0.0.1', port=5003, debug=True)
+        # current_app.model = init_model()
+        app.run(host='127.0.0.1', port=5003, debug=True)
