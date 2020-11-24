@@ -3,14 +3,14 @@ import logging as rel_log
 import os
 import shutil
 from datetime import timedelta
-
+from bavhandleback_flask.core.imagepreprocess import dicomconvertpng
 # import torch
 from flask import *
 
 import bavhandleback_flask.core.main
 import bavhandleback_flask.core.net.unet as net
 
-UPLOAD_FOLDER = r'./uploads'
+UPLOAD_FOLDER = r'/Users/zhaozhihao/Desktop/uploads'
 
 ALLOWED_EXTENSIONS = set(['dcm'])
 app = Flask(__name__)
@@ -52,11 +52,13 @@ def upload_file():
         file.save(src_path)
         shutil.copy(src_path, './tmp/ct')
         image_path = os.path.join('./tmp/ct', file.filename)
-        print(image_path)
-        pid, image_info = bavhandleback_flask.core.main.c_main(image_path, current_app.model)
+        print(src_path)
+        img_path, image_info = dicomconvertpng(app.config['UPLOAD_FOLDER'], './tmp/image', image_info=None)
+        print(img_path,image_info)
+        # pid, image_info = bavhandleback_flask.core.main.c_main(image_path, current_app.model)
         return jsonify({'status': 1,
-                        'image_url': 'http://127.0.0.1:5003/tmp/image/' + pid,
-                        'draw_url': 'http://127.0.0.1:5003/tmp/draw/' + pid,
+                        'image_url': 'http://127.0.0.1:5003/' + img_path,
+                        'draw_url': 'http://127.0.0.1:5003/' + img_path,
                       'image_info': image_info
                        })
         # return ""

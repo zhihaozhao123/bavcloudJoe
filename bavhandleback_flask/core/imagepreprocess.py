@@ -1,10 +1,8 @@
 import os
-import SimpleITK
 import pydicom
-import numpy as np
-import cv2
+from flask import jsonify
 from tqdm import tqdm
-import matplotlib.pyplot as plt
+from bavhandleback_flask.core.pydicom_PIL import show_PIL
 
 def is_dicom_file(filename):
     #判断某文件是否是dicom格式的文件
@@ -38,51 +36,37 @@ def load_patient(src_dir):
     #     s.SliceThickness = slice_thickness
     return slices
 
-def get_pixels_hu(slices):
-    image = np.stack([s.pixel_array for s in slices])
-    # 转换为int16，int16是ok的，因为所有的数值都应该 <32k
-    image = image.astype(np.float64)
-
-    # 设置边界外的元素为0
-    image[image == -2000] = 0
-
-    # 转换为HU单位
-    for slice_number in range(len(slices)):
-        intercept = slices[slice_number].RescaleIntercept
-        slope = slices[slice_number].RescaleSlope
-        if slope != 1:
-            image[slice_number] = slope * image[slice_number].astype(np.float64)
-            image[slice_number] = image[slice_number].astype(np.int64)
-
-        image[slice_number] += np.int64(intercept)
-
-    return np.array(image, dtype=np.int64)
-
-def get_pixels_hu_by_simpleitk(dicom_dir):
-    '''
-        读取某文件夹内的所有dicom文件
-    :param src_dir: dicom文件夹路径
-    :return: image array
-    '''
-    reader = SimpleITK.ImageSeriesReader()
-    dicom_names = reader.GetGDCMSeriesFileNames(dicom_dir)
-    reader.SetFileNames(dicom_names)
-    image = reader.Execute()
-    img_array = SimpleITK.GetArrayFromImage(image)
-    img_array[img_array == -2000] = 0
-    return img_array
-
+def dicomconvertpng(dicom_dir, png_path, image_info=None):
+    # 读取dicom文件的元数据(dicom tags)
+    slices = load_patient(dicom_dir)
+    for i in tqdm(range(len(slices))):
+        # 输出png文件目录
+        img_path = png_path+"/img_" + str(i).rjust(4, '0') + "_" + str(i) + ".png"
+        show_PIL(slices[i], img_path)
+        pat_name = slices[i].PatientName
+        display_name = pat_name.family_name + ", " + pat_name.given_name
+        image_info = {"PatientName":  display_name , "PatientID":  slices[i].PatientID ,"Modality":  slices[i].Modality ,"StudyDate":  str(slices[i].StudyDate) ,"ImageSize":  str(slices[i].Rows) + "x"+ str(slices[i].Columns)}
+        # image_info[i].append('PatientName',display_name)
+        # image_info[i].append('PatientID',str(slices[i].PatientID))
+        # image_info[i].append('Modality',str(slices[i].Modality))
+        # image_info[i].append('StudyDate',str(slices[i].StudyDate))
+        # image_info[i].append('ImageSize',str(slices[i].Rows) + "x"+ str(slices[i].Columns))
+        print(f"Patient's Name...: {display_name}")
+        print(f"Patient ID.......: {slices[i].PatientID}")
+        print(f"Modality.........: {slices[i].Modality}")
+        print(f"Study Date.......: {slices[i].StudyDate}")
+        print(f"Image size.......: {slices[i].Rows} x {slices[i].Columns}")
+        # print(f"Pixel Spacing....: {instance.PixelSpacing}")
+        return img_path,image_info
 
 if __name__ == '__main__':
     #dicom文件目录
     dicom_dir = '../data/dicom'
-
     # 读取dicom文件的元数据(dicom tags)
     slices = load_patient(dicom_dir)
-    first_patient_pixels = get_pixels_hu(slices)
-
-    for i in tqdm(range(len(first_patient_pixels))):
+    for i in tqdm(range(len(slices))):
         # 输出png文件目录
-        img_path = "../data/image/img_" + str(i).rjust(4, '0') + "_i.png"
-        plt.imshow(first_patient_pixels[i], cmap=plt.cm.gray)
-        plt.show()
+        img_path = "../data/image/img_" + str(i).rjust(4, '0') + "_"+str(i)+".png"
+        show_PIL(slices[i],img_path)
+
+    print(dicomconvertpng(dicom_dir,'../data/image'))
