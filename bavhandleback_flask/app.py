@@ -59,11 +59,11 @@ def upload_file():
         return jsonify({'status': 1,
                         'image_url': 'http://127.0.0.1:5003/' + img_path,
                         'draw_url': 'http://127.0.0.1:5003/' + img_path,
-                      'image_info': image_info
+                      'patient_info': image_info
                        })
         # return ""
 
-    return jsonify({'status': 0})
+    # return jsonify({'status': 0})
 
 
 @app.route("/download", methods=['GET'])

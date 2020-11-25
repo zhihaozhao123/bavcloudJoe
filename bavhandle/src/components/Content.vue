@@ -55,7 +55,7 @@
                 <div slot="header" class="clearfix">
                     <span>病人信息</span>
                 </div>
-                <div v-for="(value,name) in patient" :key="name" class="text item">
+                <div v-for="(value,name) in patient_info" :key="name" class="text item">
                     <h3 style="font-weight:normal;">{{name}}:{{value}}</h3>
                 </div>
             </el-card>
@@ -351,7 +351,7 @@
                     opacity: 0
                 },
                 dialogTableVisible: false,
-                patient: {
+                patient_info: {
                     ID: "20190001",
                     姓名: "李明",
                     性别: "男",
@@ -510,95 +510,95 @@
                         this.srcList1.push(this.url_2);
                         this.fullscreenLoading = false;
                         this.loading = false;
-
-                        this.feat_list = Object.keys(response.data.image_info);
-
-                        for (var i = 0; i < this.feat_list.length; i++) {
-                            response.data.image_info[this.feat_list[i]][2] = this.feat_list[i];
-                            this.feature_list.push(response.data.image_info[this.feat_list[i]]);
-                        }
-
-                        this.feature_list.push(response.data.image_info);
-                        this.feature_list_1 = this.feature_list[0];
-                        JSON.stringify(response.data.image_info, (key, value) => {
-                            console.log(key);
-                            console.log(value);
-                        });
-                        this.dialogTableVisible = false;
-                        this.percentage = 0;
-                        this.notice1();
-                        var areaCompare = document.getElementById("areaCompare");
-                        areaCompare.style.display = "none";
-                        var areaCompare = document.getElementById("perimeterCompare");
-                        areaCompare.style.display = "none";
-                        let myChart_area = this.$echarts.init(
-                            document.getElementById("area")
-                        );
-                        let myChart_perimeter = this.$echarts.init(
-                            document.getElementById("perimeter")
-                        );
-                        this.perimeter_picture_data = parseInt(response.data.image_info["perimeter"][1]);
-                        this.area_picture_data = parseInt(response.data.image_info["area"][1]);
-                        myChart_area.setOption({
-                            xAxis: {
-                                type: "category",
-                                data: ["1", "2", "3", "4", "5", "6", "7", "8"]
-                            },
-                            yAxis: {
-                                type: "value",
-                                name: "面积"
-                            },
-                            areaStyle: {},
-                            legend: {
-                                data: [""]
-                            },
-                            series: [
-                                {
-                                    // 根据名字对应到相应的系列
-                                    name: "面积",
-                                    type: "line",
-                                    data: [
-                                        1300,
-                                        1290,
-                                        1272,
-                                        1123.5,
-                                        1123,
-                                        1092,
-                                        1086,
-                                        response.data.image_info["area"][1]
-                                    ]
-                                }
-                            ]
-                        });
-
-                        myChart_perimeter.setOption({
-                            xAxis: {
-                                type: "category",
-                                data: ["1", "2", "3", "4", "5", "6", "7", "8"]
-                            },
-                            yAxis: {
-                                type: "value",
-                                name: "周长"
-                            },
-                            areaStyle: {},
-                            series: [
-                                {
-                                    // 根据名字对应到相应的系列
-                                    name: "周长",
-                                    type: "line",
-                                    data: [
-                                        250,
-                                        243,
-                                        227,
-                                        201,
-                                        197,
-                                        170,
-                                        159,
-                                        response.data.image_info["perimeter"]
-                                    ]
-                                }
-                            ]
-                        });
+                        console.log(response.data)
+                        // this.feat_list = Object.keys(response.data.image_info);
+                        // this.patient_info = Object.keys(response.data.image_info);
+                        // // for (var i = 0; i < this.feat_list.length; i++) {
+                        // //     response.data.image_info[this.feat_list[i]][2] = this.feat_list[i];
+                        // //     this.feature_list.push(response.data.image_info[this.feat_list[i]]);
+                        // // }
+                        //
+                        // this.feature_list.push(response.data.image_info);
+                        // this.feature_list_1 = this.feature_list[0];
+                        // JSON.stringify(response.data.image_info, (key, value) => {
+                        //     console.log(key);
+                        //     console.log(value);
+                        // });
+                        // this.dialogTableVisible = false;
+                        // this.percentage = 0;
+                        // this.notice1();
+                        // var areaCompare = document.getElementById("areaCompare");
+                        // areaCompare.style.display = "none";
+                        // var areaCompare = document.getElementById("perimeterCompare");
+                        // areaCompare.style.display = "none";
+                        // let myChart_area = this.$echarts.init(
+                        //     document.getElementById("area")
+                        // );
+                        // let myChart_perimeter = this.$echarts.init(
+                        //     document.getElementById("perimeter")
+                        // );
+                        // this.perimeter_picture_data = parseInt(response.data.image_info["perimeter"][1]);
+                        // this.area_picture_data = parseInt(response.data.image_info["area"][1]);
+                        // myChart_area.setOption({
+                        //     xAxis: {
+                        //         type: "category",
+                        //         data: ["1", "2", "3", "4", "5", "6", "7", "8"]
+                        //     },
+                        //     yAxis: {
+                        //         type: "value",
+                        //         name: "面积"
+                        //     },
+                        //     areaStyle: {},
+                        //     legend: {
+                        //         data: [""]
+                        //     },
+                        //     series: [
+                        //         {
+                        //             // 根据名字对应到相应的系列
+                        //             name: "面积",
+                        //             type: "line",
+                        //             data: [
+                        //                 1300,
+                        //                 1290,
+                        //                 1272,
+                        //                 1123.5,
+                        //                 1123,
+                        //                 1092,
+                        //                 1086,
+                        //                 response.data.image_info["area"][1]
+                        //             ]
+                        //         }
+                        //     ]
+                        // });
+                        //
+                        // myChart_perimeter.setOption({
+                        //     xAxis: {
+                        //         type: "category",
+                        //         data: ["1", "2", "3", "4", "5", "6", "7", "8"]
+                        //     },
+                        //     yAxis: {
+                        //         type: "value",
+                        //         name: "周长"
+                        //     },
+                        //     areaStyle: {},
+                        //     series: [
+                        //         {
+                        //             // 根据名字对应到相应的系列
+                        //             name: "周长",
+                        //             type: "line",
+                        //             data: [
+                        //                 250,
+                        //                 243,
+                        //                 227,
+                        //                 201,
+                        //                 197,
+                        //                 170,
+                        //                 159,
+                        //                 response.data.image_info["perimeter"]
+                        //             ]
+                        //         }
+                        //     ]
+                        // });
                     });
             },
             // 下载 点击按钮 从远程接口获取文件

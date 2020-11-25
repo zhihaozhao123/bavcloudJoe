@@ -12,11 +12,8 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Content from './components/Content'
 export default {
-  name: "二叶式主动脉瓣钙化辅助诊断系统",
+  name: "Content",
   data() {
-    return {
-
-    }
   },
   components:{
     "app-header":Header,
