@@ -53,11 +53,17 @@
             <!-- 查看病人信息 -->
             <el-card class="box-card" style="width:250px;height:350px">
                 <div slot="header" class="clearfix">
-                    <span>病人信息</span>
+                    <span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold; letter-spacing: 7px;">病人信息</span>
                 </div>
-                <div v-for="(value,name) in patient_info" :key="name" class="text item">
-                    <h3 style="font-weight:normal;">{{name}}:{{value}}</h3>
-                </div>
+
+              <div  class="text item"><!--   v-for="(value,name) in patient_info" :key="name"-->
+                <h3 style="font-weight:normal;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">ID</span>:{{patient_info['PatientID']}}</h3>
+                <h3 style="font-weight:normal;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">姓名</span>:{{patient_info['PatientName']}}</h3>
+                <h3 style="font-weight:normal;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">年龄</span>:{{patient_info['Age']}}</h3>
+                <h3 style="font-weight:normal;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">检查设备</span>:{{patient_info['Modality']}}</h3>
+                <h3 style="font-weight:normal;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">检查日期</span>:{{patient_info['StudyDate']}}</h3>
+                <h3 style="font-weight:normal;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">分辨率</span>:{{patient_info['ImageSize']}}</h3>
+              </div>
             </el-card>
 
             <!-- 步骤条：下载 上传 -->
@@ -352,12 +358,20 @@
                 },
                 dialogTableVisible: false,
                 patient_info: {
-                    ID: "20190001",
-                    姓名: "李明",
-                    性别: "男",
-                    年龄: "29",
-                    电话: "13220986785",
-                    部位: "心脏"
+                    PatientID: "待上传",
+                    PatientName: "待上传",
+                    Modality: "待上传",
+                    StudyDate: "待上传",
+                    ImageSize: "待上传",
+                    Age:"待上传"
+                },
+                patient_info_lsit: {
+                    ID: "PatientID",
+                    姓名: "PatientName",
+                    年龄: "Age",
+                    检查设备: "Modality",
+                    检查日期: "StudyDate",
+                    分辨率: "ImageSize"
                 }
             };
         },
@@ -509,10 +523,11 @@
                         this.url_2 = response.data.draw_url;
                         this.srcList1.push(this.url_2);
                         this.fullscreenLoading = false;
+                        this.dialogTableVisible = false;
                         this.loading = false;
                         console.log(response.data)
                         // this.feat_list = Object.keys(response.data.image_info);
-                        // this.patient_info = Object.keys(response.data.image_info);
+                        this.patient_info = response.data.patient_info;
                         // // for (var i = 0; i < this.feat_list.length; i++) {
                         // //     response.data.image_info[this.feat_list[i]][2] = this.feat_list[i];
                         // //     this.feature_list.push(response.data.image_info[this.feat_list[i]]);

@@ -102,4 +102,5 @@ def show_PIL(dataset,img_path):
     im = get_PIL_image(dataset)
     #图片显示
     # im.show()
-    im.save(img_path)
+    im.save(img_path,format=None)
+

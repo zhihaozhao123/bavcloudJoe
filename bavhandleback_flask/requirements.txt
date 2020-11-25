@@ -7,3 +7,5 @@ pydicom==2.1.1
 SimpleITK==2.0.1
 tqdm==4.53.0
 # torch==1.2.0
+imageio==2.9.0
+scipy==1.5.4

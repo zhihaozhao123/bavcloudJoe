@@ -4,14 +4,15 @@ import os
 import shutil
 from datetime import timedelta
 from bavhandleback_flask.core.imagepreprocess import dicomconvertpng
+from bavhandleback_flask.core.imagepreprocess import example_starfish
 # import torch
 from flask import *
 
 import bavhandleback_flask.core.main
 import bavhandleback_flask.core.net.unet as net
 
-UPLOAD_FOLDER = r'/Users/zhaozhihao/Desktop/uploads'
-
+# UPLOAD_FOLDER = r'./uploads'
+UPLOAD_FOLDER = r"G:\ghs_Work2018\bavcloudJoe\bavhandleback_flask\data\dicom"
 ALLOWED_EXTENSIONS = set(['dcm'])
 app = Flask(__name__)
 app.secret_key = 'secret!'
@@ -50,16 +51,23 @@ def upload_file():
     if file and allowed_file(file.filename):
         src_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(src_path)
-        shutil.copy(src_path, './tmp/ct')
-        image_path = os.path.join('./tmp/ct', file.filename)
-        print(src_path)
-        img_path, image_info = dicomconvertpng(app.config['UPLOAD_FOLDER'], './tmp/image', image_info=None)
-        print(img_path,image_info)
+        ##Linux  -  Mac
+        # copy_image_path = './tmp/image'
+        # copy_dicom_path = './tmp/ct'
+
+        ##Windows
+        copy_image_path = "G:\ghs_Work2018\\bavcloudJoe\\bavhandleback_flask\static\image"
+        copy_dicom_path = "G:\ghs_Work2018\\bavcloudJoe\\bavhandleback_flask\data\\tmp\ct"
+        shutil.copy(src_path, copy_dicom_path)
+        # image_path = os.path.join(copy_dicom_path, file.filename)
+        org_img_path,patient_info = dicomconvertpng(app.config['UPLOAD_FOLDER'], copy_image_path, patient_info=None)
+        print(org_img_path,patient_info)
+        new_img_path = example_starfish(copy_image_path + "\\" + org_img_path)
         # pid, image_info = bavhandleback_flask.core.main.c_main(image_path, current_app.model)
         return jsonify({'status': 1,
-                        'image_url': 'http://127.0.0.1:5003/' + img_path,
-                        'draw_url': 'http://127.0.0.1:5003/' + img_path,
-                      'patient_info': image_info
+                        'image_url': 'http://127.0.0.1:5003/static/image/' + org_img_path,
+                        'draw_url': 'http://127.0.0.1:5003/static/handleimage/' + new_img_path,
+                      'patient_info': patient_info
                        })
         # return ""
 
