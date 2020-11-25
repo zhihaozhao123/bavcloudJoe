@@ -53,19 +53,21 @@ def dicomconvertpng(dicom_dir, png_path, patient_info=None):
     slices = load_patient(dicom_dir)
     for i in tqdm(range(len(slices))):
         # 输出png文件目录
-        # img_path = png_path+"/img_" + str(i).rjust(4, '0') + "_" + str(i) + ".png" #Linux--Mac
-        img_path = png_path + "\img_" + str(i).rjust(4, '0') + "_" + str(i) + ".png" #Windows
+        img_path = png_path+"/img_" + str(i).rjust(4, '0') + "_" + str(i) + ".png" #Linux--Mac
+        # img_path = png_path + "\img_" + str(i).rjust(4, '0') + "_" + str(i) + ".png" #Windows
         filename = "img_" + str(i).rjust(4, '0') + "_" + str(i) + ".png"
         show_PIL(slices[i], img_path)
         pat_name = slices[i].PatientName
-        display_name = pat_name.family_name + ", " + pat_name.given_name
-        patient_info = {"PatientID":  slices[i].PatientID ,"PatientName":  display_name , "Modality":  slices[i].Modality ,"StudyDate":  str(slices[i].StudyDate) ,"ImageSize":  str(slices[i].Rows) + "x"+ str(slices[i].Columns)}
+        # display_name = pat_name.family_name + ", " + pat_name.given_name
+        display_type = str(pat_name.family_name).split("-")[0]
+        display_name = str(pat_name.family_name).split("-")[2]
+        patient_info = {"PatientID":  slices[i].PatientID ,"PatientName": display_name, "Modality":  slices[i].Modality ,"StudyDate":  str(slices[i].StudyDate) ,"ImageSize":  str(slices[i].Columns) + "x"+ str(slices[i].Rows),"H_W":pat_name.given_name,"Type":display_type,"PatientBirthDate":slices[i].PatientBirthDate,"Sex":slices[i].PatientSex}
         # image_info[i].append('PatientName',display_name)
         # image_info[i].append('PatientID',str(slices[i].PatientID))
         # image_info[i].append('Modality',str(slices[i].Modality))
         # image_info[i].append('StudyDate',str(slices[i].StudyDate))
         # image_info[i].append('ImageSize',str(slices[i].Rows) + "x"+ str(slices[i].Columns))
-        print(f"Patient's Name...: {display_name}")
+        print(f"Patient's Name...: {pat_name.family_name}")
         print(f"Patient ID.......: {slices[i].PatientID}")
         print(f"Modality.........: {slices[i].Modality}")
         print(f"Study Date.......: {slices[i].StudyDate}")
@@ -126,8 +128,8 @@ def visual_callback_2d(background, fig=None):
         ax1.contour(levelset, [0.5], colors='r')
         ax_u.set_data(levelset)
         fig.canvas.draw()
-        # fig.savefig(("image_",str(num),".jpg"))
-        fig.savefig("G:\ghs_Work2018\\bavcloudJoe\\bavhandleback_flask\static\handleimage\imag.jpg")
+        fig.savefig(("./static/handleimage/imag.jpg"))
+        # fig.savefig("G:\ghs_Work2018\\bavcloudJoe\\bavhandleback_flask\static\handleimage\imag.jpg")
         plt.pause(0.001)
 
     return callback
@@ -142,18 +144,18 @@ def example_starfish(org_img_path):
         img = rgb2gray(imgcolor)
 
         # g(I)
-        gimg = ms.inverse_gaussian_gradient(img, alpha=1000, sigma=2)
+        gimg = ms.inverse_gaussian_gradient(img, alpha=100000, sigma=1)
 
         # Initialization of the level-set.
-        init_ls = ms.circle_level_set(img.shape, (163, 137), 135)
-
+        # init_ls = ms.circle_level_set(img.shape, (163, 137), 135)
+        init_ls = ms.circle_level_set(img.shape, None, None)
         # Callback for visual plotting
         callback = visual_callback_2d(imgcolor)
 
         # MorphGAC.
-        ms.morphological_geodesic_active_contour(gimg, iterations=100,
+        ms.morphological_geodesic_active_contour(gimg, iterations=26,
                                                  init_level_set=init_ls,
-                                                 smoothing=2, threshold=0.3,
+                                                 smoothing=4, threshold='auto',
                                                  balloon=-1, iter_callback=callback)
 
         return "imag.jpg"

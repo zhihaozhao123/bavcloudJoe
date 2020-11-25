@@ -190,10 +190,17 @@ def circle_level_set(image_shape, center=None, radius=None):
     """
 
     if center is None:
-        center = tuple(i // 2 for i in image_shape)
+        # center = tuple(i // 2 for i in image_shape)
+        # center = (246,298)#Image01
+        center=(240,339)#1.JPG
+        # center=(460,522)#2.JPG
+        # center=(465,445)#3.JPG
+        # center=(259,292)#4.1.JPG/4.JPG
+        # center = (278, 365)  # 7.JPG
+        # center=(231,337)
 
     if radius is None:
-        radius = min(image_shape) * 3.0 / 8.0
+        radius = min(image_shape) * 3.8 / 26.0
 
     grid = np.mgrid[[slice(i) for i in image_shape]]
     grid = (grid.T - center).T
@@ -456,7 +463,7 @@ def morphological_geodesic_active_contour(gimage, iterations,
     if threshold == 'auto':
         threshold = np.percentile(image, 40)
 
-    structure = np.ones((3,) * len(image.shape), dtype=np.int8)
+    structure = np.ones((7,) * len(image.shape), dtype=np.int8)
     dimage = np.gradient(image)
     # threshold_mask = image > threshold
     if balloon != 0:
@@ -490,4 +497,21 @@ def morphological_geodesic_active_contour(gimage, iterations,
 
         iter_callback(u)
 
+    count = 0
+    Max = 0;
+    Min = 0;
+    for i in range(u.shape[0]):
+        for j in range(u.shape[1]):
+            if u[i][j] > 0:
+                Min = image[i, j]
+                count = count + 1
+                # print("i,j：", i, "-", j)
+                # print("钙化像素点：", image[i, j])
+                if (Max < image[i, j]):
+                    Max = image[i, j]
+                if (Min > image[i, j]):
+                    Min = image[i, j]
+
+    print("最大像素：", Max, "最小像素：", Min)
+    print("1的个数：", count)
     return u

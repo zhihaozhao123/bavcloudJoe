@@ -57,12 +57,15 @@
                 </div>
 
               <div  class="text item"><!--   v-for="(value,name) in patient_info" :key="name"-->
-                <h3 style="font-weight:normal;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">ID</span>:{{patient_info['PatientID']}}</h3>
-                <h3 style="font-weight:normal;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">姓名</span>:{{patient_info['PatientName']}}</h3>
-                <h3 style="font-weight:normal;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">年龄</span>:{{patient_info['Age']}}</h3>
-                <h3 style="font-weight:normal;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">检查设备</span>:{{patient_info['Modality']}}</h3>
-                <h3 style="font-weight:normal;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">检查日期</span>:{{patient_info['StudyDate']}}</h3>
-                <h3 style="font-weight:normal;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">分辨率</span>:{{patient_info['ImageSize']}}</h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">ID</span>:{{patient_info['PatientID']}}</h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">姓名</span>:{{patient_info['PatientName']}}</h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">性别</span>:{{patient_info['Sex']}}</h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">身高/体重</span>:{{patient_info['H_W']}}</h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">出生日期</span>:{{patient_info['PatientBirthDate']}}</h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">病情类别</span>:{{patient_info['Type']}}</h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">检查设备</span>:{{patient_info['Modality']}}</h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">检查日期</span>:{{patient_info['StudyDate']}}</h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">分辨率</span>:{{patient_info['ImageSize']}}</h3>
               </div>
             </el-card>
 
@@ -363,12 +366,19 @@
                     Modality: "待上传",
                     StudyDate: "待上传",
                     ImageSize: "待上传",
-                    Age:"待上传"
+                    Age:  "待上传",
+                    H_W:  "待上传",
+                    Type: "待上传",
+                    Sex:"待上传",
+                    PatientBirthDate:"待上传"
                 },
                 patient_info_lsit: {
                     ID: "PatientID",
                     姓名: "PatientName",
-                    年龄: "Age",
+                    性别: "Sex",
+                    年龄: "PatientBirthDate",
+                    '身高/体重':"H_W",
+                    病情类别:"Type",
                     检查设备: "Modality",
                     检查日期: "StudyDate",
                     分辨率: "ImageSize"
