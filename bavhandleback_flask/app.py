@@ -3,6 +3,8 @@ import logging as rel_log
 import os
 import shutil
 from datetime import timedelta
+
+from bavhandleback_flask.core.choosepointodimage import choosetwopointsofimage
 from bavhandleback_flask.core.imagepreprocess import dicomconvertpng
 from bavhandleback_flask.core.imagepreprocess import example_starfish
 # import torch
@@ -43,6 +45,18 @@ def allowed_file(filename):
 def hello_world():
     return redirect(url_for('static', filename='./index.html'))
 
+
+@app.route('/chooseruler', methods=['GET', 'POST'])
+def chooseruler():
+    # requestDict =  request.form.get('comment')
+    # img_path = request.form['imgpath']
+    img_path = "G:\ghs_Work2018\\bavcloudJoe\\bavhandleback_flask\static\image\img_0000_0.png"
+    xlable_0, ylable_0, xlable_1, ylable_1,return_message = choosetwopointsofimage(img_path)
+    if 'You are choosed two points of the image,please close the window'  == return_message :
+        status = 200;
+    else:
+        status = 500;
+    return  jsonify({'status':status,'xlable_0':xlable_0, 'ylable_0':ylable_0, 'xlable_1':xlable_1, 'ylable_1':ylable_1,'return_message':return_message})
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():

@@ -282,6 +282,16 @@
                                 @change="update"
                             >
                         </el-button>
+                        <el-button
+                            style="margin-right: 35px"
+                            v-show="!showbutton"
+                            type="primary"
+                            class="download_bt"
+                            v-on:click="chooseruler"
+                        >
+                          标尺标注
+
+                        </el-button>
                     </div>
 
 
@@ -453,7 +463,8 @@
                     检查设备: "Modality",
                     检查日期: "StudyDate",
                     分辨率: "ImageSize"
-                }
+                },
+                imgpath:""
             };
         },
         created: function () {
@@ -602,6 +613,7 @@
                         this.url_1 = response.data.image_url;
                         this.srcList.push(this.url_1);
                         this.url_2 = response.data.draw_url;
+                        this.imgpath = response.data.draw_url;
                         this.srcList1.push(this.url_2);
                         this.fullscreenLoading = false;
                         this.dialogTableVisible = false;
@@ -695,6 +707,36 @@
                         //         }
                         //     ]
                         // });
+                    });
+            },
+            //标尺标注
+            chooseruler(){
+                let param = new FormData(); //创建form对象
+                param.append("imgpath",this.imgpath)
+                // param.append("imgpath", this.imgpath, imgpath.name); //通过append向form对象添加数据
+                console.log(this.imgpath); //FormData私有类对象，访问不到，可以通过get判断值是否传进去
+               // var timer = setInterval(() => {
+               //      this.myFunc();
+               //  }, 30);
+                let config = {
+                    headers: {"Content-Type": "multipart/form-data"}
+                }; //添加请求头
+                axios
+                    .post(this.server_url+"/chooseruler", param, config)
+                    .then(response => {
+                        if (response.data.status == 200) {
+                          this.$message({
+                            message: "标注成功",
+                            type: "success"
+                          });
+
+                        } else {
+                          this.$message({
+                            showClose: true,
+                            message: "标注失败，请重新标注",
+                            type: "error"
+                          });
+                        }
                     });
             },
             // 下载 点击按钮 从远程接口获取文件
