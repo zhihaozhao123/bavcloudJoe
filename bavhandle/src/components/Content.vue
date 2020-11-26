@@ -57,15 +57,86 @@
                 </div>
 
               <div  class="text item"><!--   v-for="(value,name) in patient_info" :key="name"-->
-                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">ID</span>:{{patient_info['PatientID']}}</h3>
-                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">姓名</span>:{{patient_info['PatientName']}}</h3>
-                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">性别</span>:{{patient_info['Sex']}}</h3>
-                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">身高/体重</span>:{{patient_info['H_W']}}</h3>
-                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">出生日期</span>:{{patient_info['PatientBirthDate']}}</h3>
-                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">病情类别</span>:{{patient_info['Type']}}</h3>
-                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">检查设备</span>:{{patient_info['Modality']}}</h3>
-                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">检查日期</span>:{{patient_info['StudyDate']}}</h3>
-                <h3 style="font-weight:normal;margin-top: 5px;" ><span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;">分辨率</span>:{{patient_info['ImageSize']}}</h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" >
+                  <div style="width: 102px; height: 18px;float:left;margin-right:4px">
+                    <span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;float:right">
+                      ID
+                    </span>
+                  </div>
+                  <div style="width: 102px; height: 18px;float:right">
+                    <span>:</span><span style="margin-left: 4px">{{patient_info['PatientID']}}</span>
+                  </div>
+                </h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" >
+                  <div style="width: 102px; height: 18px;float:left;margin-right:4px">
+                    <span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;float:right">
+                      姓名
+                    </span>
+                  </div>
+                  <div style="width: 102px; height: 18px;float:right">
+                    <span>:</span><span style="margin-left: 4px">{{patient_info['PatientName']}}</span>
+                  </div>
+                </h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" >
+                  <div style="width: 102px; height: 18px;float:left;margin-right:4px">
+                    <span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;float:right">
+                      性别
+                    </span>
+                  </div>
+                  <div style="width: 102px; height: 18px;float:right">
+                    <span>:</span><span style="margin-left: 4px">{{patient_info['Sex']}}</span>
+                  </div>
+                </h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" >
+                  <div style="width: 102px; height: 18px;float:left;margin-right:4px">
+                    <span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;float:right">
+                      出生日期
+                    </span>
+                  </div>
+                  <div style="width: 102px; height: 18px;float:right">
+                    <span>:</span><span style="margin-left: 4px">{{patient_info['PatientBirthDate']}}</span>
+                  </div>
+                </h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" >
+                  <div style="width: 102px; height: 18px;float:left;margin-right:4px">
+                    <span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;float:right">
+                      病情类别
+                    </span>
+                  </div>
+                  <div style="width: 102px; height: 18px;float:right">
+                    <span>:</span><span style="margin-left: 4px">{{patient_info['Type']}}</span>
+                  </div>
+                </h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" >
+                  <div style="width: 102px; height: 18px;float:left;margin-right:4px">
+                    <span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;float:right">
+                      检查设备
+                    </span>
+                  </div>
+                  <div style="width: 102px; height: 18px;float:right">
+                    <span>:</span><span style="margin-left: 4px">{{patient_info['Modality']}}</span>
+                  </div>
+                </h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" >
+                  <div style="width: 102px; height: 18px;float:left;margin-right:4px">
+                    <span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;float:right">
+                      检查日期
+                    </span>
+                  </div>
+                  <div style="width: 102px; height: 18px;float:right">
+                    <span>:</span><span style="margin-left: 4px">{{patient_info['StudyDate']}}</span>
+                  </div>
+                </h3>
+                <h3 style="font-weight:normal;margin-top: 5px;" >
+                  <div style="width: 102px; height: 18px;float:left;margin-right:4px">
+                    <span data-v-61dd7a3d="" style="color: rgb(33, 179, 185); font-weight: bold;float:right">
+                      分辨率
+                    </span>
+                  </div>
+                  <div style="width: 102px; height: 18px;float:right">
+                    <span>:</span><span style="margin-left: 4px">{{patient_info['ImageSize']}}</span>
+                  </div>
+                </h3>
               </div>
             </el-card>
 
