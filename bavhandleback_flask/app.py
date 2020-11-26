@@ -11,8 +11,8 @@ from flask import *
 import bavhandleback_flask.core.main
 import bavhandleback_flask.core.net.unet as net
 
-# UPLOAD_FOLDER = r'./uploads'
-UPLOAD_FOLDER = r"G:\ghs_Work2018\bavcloudJoe\bavhandleback_flask\data\dicom"
+UPLOAD_FOLDER = r'./uploads'
+# UPLOAD_FOLDER = r"G:\ghs_Work2018\bavcloudJoe\bavhandleback_flask\data\dicom"
 ALLOWED_EXTENSIONS = set(['dcm'])
 app = Flask(__name__)
 app.secret_key = 'secret!'
@@ -52,17 +52,17 @@ def upload_file():
         src_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(src_path)
         ##Linux  -  Mac
-        # copy_image_path = './tmp/image'
-        # copy_dicom_path = './tmp/ct'
+        copy_image_path = './static/image'
+        copy_dicom_path = './tmp/ct'
 
         ##Windows
-        copy_image_path = "G:\ghs_Work2018\\bavcloudJoe\\bavhandleback_flask\static\image"
-        copy_dicom_path = "G:\ghs_Work2018\\bavcloudJoe\\bavhandleback_flask\data\\tmp\ct"
+        # copy_image_path = "G:\ghs_Work2018\\bavcloudJoe\\bavhandleback_flask\static\image"
+        # copy_dicom_path = "G:\ghs_Work2018\\bavcloudJoe\\bavhandleback_flask\data\\tmp\ct"
         shutil.copy(src_path, copy_dicom_path)
         # image_path = os.path.join(copy_dicom_path, file.filename)
         org_img_path,patient_info = dicomconvertpng(app.config['UPLOAD_FOLDER'], copy_image_path, patient_info=None)
         print(org_img_path,patient_info)
-        new_img_path = example_starfish(copy_image_path + "\\" + org_img_path)
+        new_img_path = example_starfish(copy_image_path + "/" + org_img_path)
         # pid, image_info = bavhandleback_flask.core.main.c_main(image_path, current_app.model)
         return jsonify({'status': 1,
                         'image_url': 'http://127.0.0.1:5003/static/image/' + org_img_path,
