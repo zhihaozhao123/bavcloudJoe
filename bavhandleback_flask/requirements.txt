@@ -9,3 +9,4 @@ tqdm==4.53.0
 # torch==1.2.0
 imageio==2.9.0
 scipy==1.5.4
+opencv-python==4.4.0.46

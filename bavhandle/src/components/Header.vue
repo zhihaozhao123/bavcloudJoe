@@ -3,42 +3,40 @@
         <!-- 免费咨询 -->
         <div class="top-left-edition">
       <span style="color:#21b3b9;font-weight:bold;">
-        <i class="el-icon-phone-outline" style="font-size:23px;"></i>免费咨询：010-56732656
+        <i class="el-icon-phone-outline" style="font-size:23px;"></i>免费咨询：010-4001234
       </span>
             <span>
         <i class="el-icon-time" style="font-size:23px;"></i>工作时间：9:00-18:00
       </span>
         </div>
-        <!-- CT图像处理字（可删除放图片） -->
+        <!-- 超声图像处理字（可删除放图片） -->
         <div id="word">
 
             <h1>{{msg}}</h1>
         </div>
 
         <!-- 导航栏 -->
-<!--        <el-menu-->
-<!--            :default-active="activeIndex"-->
-<!--            class="el-menu-demo"-->
-<!--            id="menu"-->
-<!--            mode="horizontal"-->
-<!--            @select="handleSelect"-->
-<!--        >-->
-<!--            <el-menu-item index="1">处理中心</el-menu-item>-->
-<!--            <el-submenu index="2">-->
-<!--                <template slot="title">我的工作台</template>-->
-<!--                <el-menu-item index="2-1">选项1</el-menu-item>-->
-<!--                <el-menu-item index="2-2">选项2</el-menu-item>-->
-<!--                <el-menu-item index="2-3">选项3</el-menu-item>-->
+        <el-menu
+            :default-active="activeIndex"
+            class="el-menu-demo"
+            id="menu"
+            mode="horizontal"
+            @select="handleSelect"
+        >
+            <el-menu-item index="1">预测中心</el-menu-item>
+            <el-submenu index="2">
+                <template slot="title">工作台</template>
+                <el-menu-item index="2-1">预测统计报表</el-menu-item>
+                <el-menu-item index="2-2">预测结果分析</el-menu-item>
+                <el-menu-item index="2-3">预测结果打印</el-menu-item>
 <!--                <el-submenu index="2-4">-->
 <!--                    <template slot="title">选项4</template>-->
 <!--                    <el-menu-item index="2-4-1">选项1</el-menu-item>-->
 <!--                    <el-menu-item index="2-4-2">选项2</el-menu-item>-->
 <!--                    <el-menu-item index="2-4-3">选项3</el-menu-item>-->
 <!--                </el-submenu>-->
-<!--            </el-submenu>-->
-<!--            <el-menu-item index="0">处理中心</el-menu-item>-->
-<!--            <el-menu-item index="1">处理中心</el-menu-item>-->
-<!--        </el-menu>-->
+            </el-submenu>
+        </el-menu>
     </div>
 </template>
 <script>
@@ -46,7 +44,7 @@
         name: "Header",
         data() {
             return {
-                msg: "二叶式主动脉瓣钙化辅助诊断系统",
+                msg: "主动脉瓣钙化辅助诊断系统",
                 activeIndex: "1"
             };
         },
@@ -65,7 +63,7 @@
     }
 
     #word {
-        margin-left: 45%;
+        margin-left: 40%;
         margin-top: -35px;
         margin-bottom: 37px;
         height: 60px;

@@ -2,7 +2,7 @@
     <div id="Content">
         <el-dialog
             id="hello"
-            title="二叶式主动脉瓣钙化辅助诊断系统"
+            title="主动脉瓣钙化辅助诊断系统"
             :visible.sync="centerDialogVisible"
             width="65%"
             :before-close="handleClose"
@@ -37,7 +37,7 @@
       </span>
         </el-dialog>
         <el-dialog
-            title="AI预测中"
+            title="预测中"
             :visible.sync="dialogTableVisible"
             :show-close="false"
             :close-on-press-escape="false"
@@ -46,7 +46,7 @@
             :center="true"
         >
             <el-progress :percentage="percentage"></el-progress>
-            <span slot="footer" class="dialog-footer">非GPU学生服务器性能有限，请耐心等待约一分钟</span>
+            <span slot="footer" class="dialog-footer">请耐心等待约一分钟</span>
         </el-dialog>
 
         <div id="aside">
@@ -248,7 +248,7 @@
                                 </div>
                             </el-image>
                         </div>
-                        <!-- 标出肿瘤的超声心动图图像文字 -->
+                        <!-- 标出钙化的超声心动图图像文字 -->
                         <div class="img_info_1" style="border-radius: 0 0 5px 5px;">
                             <span style="color:white;letter-spacing:4px;">标出钙化的超声心动图图像</span>
                         </div>
@@ -468,7 +468,7 @@
             };
         },
         created: function () {
-            document.title = '二叶式主动脉瓣钙化辅助诊断系统';
+            document.title = '主动脉瓣钙化辅助诊断系统';
         },
         methods: {
             true_upload() {
@@ -608,12 +608,15 @@
                 axios
                     .post(this.server_url+"/upload", param, config)
                     .then(response => {
-                        this.percentage = 100;
+                        if(response.data.status == 1){
+                            this.percentage = 100;
                         clearInterval(timer);
                         this.url_1 = response.data.image_url;
                         this.srcList.push(this.url_1);
                         this.url_2 = response.data.draw_url;
                         this.imgpath = response.data.draw_url;
+                        this.roipixles=response.data.roipixles
+                        this.roilen=response.data.roilen
                         this.srcList1.push(this.url_2);
                         this.fullscreenLoading = false;
                         this.dialogTableVisible = false;
@@ -634,7 +637,7 @@
                         // });
                         // this.dialogTableVisible = false;
                         // this.percentage = 0;
-                        // this.notice1();
+                        this.notice1();
                         // var areaCompare = document.getElementById("areaCompare");
                         // areaCompare.style.display = "none";
                         // var areaCompare = document.getElementById("perimeterCompare");
@@ -647,77 +650,137 @@
                         // );
                         // this.perimeter_picture_data = parseInt(response.data.image_info["perimeter"][1]);
                         // this.area_picture_data = parseInt(response.data.image_info["area"][1]);
-                        // myChart_area.setOption({
-                        //     xAxis: {
-                        //         type: "category",
-                        //         data: ["1", "2", "3", "4", "5", "6", "7", "8"]
-                        //     },
-                        //     yAxis: {
-                        //         type: "value",
-                        //         name: "面积"
-                        //     },
-                        //     areaStyle: {},
-                        //     legend: {
-                        //         data: [""]
-                        //     },
-                        //     series: [
-                        //         {
-                        //             // 根据名字对应到相应的系列
-                        //             name: "面积",
-                        //             type: "line",
-                        //             data: [
-                        //                 1300,
-                        //                 1290,
-                        //                 1272,
-                        //                 1123.5,
-                        //                 1123,
-                        //                 1092,
-                        //                 1086,
-                        //                 response.data.image_info["area"][1]
-                        //             ]
-                        //         }
-                        //     ]
-                        // });
-                        //
-                        // myChart_perimeter.setOption({
-                        //     xAxis: {
-                        //         type: "category",
-                        //         data: ["1", "2", "3", "4", "5", "6", "7", "8"]
-                        //     },
-                        //     yAxis: {
-                        //         type: "value",
-                        //         name: "周长"
-                        //     },
-                        //     areaStyle: {},
-                        //     series: [
-                        //         {
-                        //             // 根据名字对应到相应的系列
-                        //             name: "周长",
-                        //             type: "line",
-                        //             data: [
-                        //                 250,
-                        //                 243,
-                        //                 227,
-                        //                 201,
-                        //                 197,
-                        //                 170,
-                        //                 159,
-                        //                 response.data.image_info["perimeter"]
-                        //             ]
-                        //         }
-                        //     ]
-                        // });
+                        myChart_area.setOption({
+                            xAxis: {
+                                type: "category",
+                                data: ["1", "2", "3", "4", "5", "6", "7", "8"]
+                            },
+                            yAxis: {
+                                type: "value",
+                                name: "钙化面积"
+                            },
+                            areaStyle: {},
+                            legend: {
+                                data: [""]
+                            },
+                            series: [
+                                {
+                                    // 根据名字对应到相应的系列
+                                    name: "面积",
+                                    type: "line",
+                                    data: [
+                                        1300,
+                                        1290,
+                                        1272,
+                                        1123.5,
+                                        1123,
+                                        1092,
+                                        1086,
+                                        response.data.image_info["area"][1]
+                                    ]
+                                }
+                            ]
+                        });
+
+                        myChart_perimeter.setOption({
+                            xAxis: {
+                                type: "category",
+                                data: ["1", "2", "3", "4", "5", "6", "7", "8"]
+                            },
+                            yAxis: {
+                                type: "value",
+                                name: "钙化周长"
+                            },
+                            areaStyle: {},
+                            series: [
+                                {
+                                    // 根据名字对应到相应的系列
+                                    name: "周长",
+                                    type: "line",
+                                    data: [
+                                        250,
+                                        243,
+                                        227,
+                                        201,
+                                        197,
+                                        170,
+                                        159,
+                                        response.data.image_info["perimeter"]
+                                    ]
+                                }
+                            ]
+                        });
+                        }else if(response.data.status == 0){
+                            clearInterval(timer);
+                            this.notice2()
+                            this.server_url='http://127.0.0.1:5003'
+                            this.perimeter_picture_data= 0
+                            this.area_picture_data= 0,
+                            this.activeName= "first",
+                            this.active= 0,
+                            this.centerDialogVisible= false,
+                            this.url_1= "",
+                            this.url_2= "",
+                            this.textarea= "",
+                            this.srcList= [],
+                            this.srcList1= [],
+                            this.feature_list= [],
+                            this.feature_list_1= [],
+                            this.feat_list= [],
+                            this.url= "",
+                            this.visible= false,
+                            // activeName= "second",
+                            this.wait_return= "等待上传",
+                            this.wait_upload= "等待上传",
+                            this.loading= false,
+                            this.table= false,
+                            this.isNav= false,
+                            this.showbutton= true,
+                            this.percentage= 0,
+                            this.fullscreenLoading= false,
+                            this.opacitys= {
+                                opacity: 0
+                            },
+                            this.dialogTableVisible= false,
+                            this.patient_info= {
+                                PatientID: "待上传",
+                                PatientName: "待上传",
+                                Modality: "待上传",
+                                StudyDate: "待上传",
+                                ImageSize: "待上传",
+                                Age:  "待上传",
+                                H_W:  "待上传",
+                                Type: "待上传",
+                                Sex:"待上传",
+                                PatientBirthDate:"待上传"
+                            },
+                            this.patient_info_lsit= {
+                                ID: "PatientID",
+                                姓名: "PatientName",
+                                性别: "Sex",
+                                年龄: "PatientBirthDate",
+                                '身高/体重':"H_W",
+                                病情类别:"Type",
+                                检查设备: "Modality",
+                                检查日期: "StudyDate",
+                                分辨率: "ImageSize"
+                            },
+                            this.imgpath=""
+                            this.roipixles=0
+                            this.roilen=0
+                        }
+
+
                     });
             },
             //标尺标注
             chooseruler(){
                 let param = new FormData(); //创建form对象
                 param.append("imgpath",this.imgpath)
+                param.append("roipixles",this.roipixles)
+                param.append("roilen",this.roilen)
                 // param.append("imgpath", this.imgpath, imgpath.name); //通过append向form对象添加数据
                 console.log(this.imgpath); //FormData私有类对象，访问不到，可以通过get判断值是否传进去
-               // var timer = setInterval(() => {
-               //      this.myFunc();
-               //  }, 30);
                 let config = {
                     headers: {"Content-Type": "multipart/form-data"}
                 }; //添加请求头
@@ -726,7 +789,7 @@
                     .then(response => {
                         if (response.data.status == 200) {
                           this.$message({
-                            message: "标注成功",
+                            message: "标注成功,预测的钙化面积为："+response.data.roi_s+"mm2",//；周长为："+response.data.roi_l+"mm",
                             type: "success"
                           });
 
@@ -911,7 +974,7 @@
                 let link = document.createElement("a");
                 link.style.display = "none";
                 link.href = url;
-                link.setAttribute("download", `肿瘤CT图文件.zip`);
+                link.setAttribute("download", `超声心动图文件.zip`);
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -945,7 +1008,16 @@
                 this.$notify({
                     title: "预测成功",
                     message:
-                        "点击图片可以查看大图，图片下方会显示肿瘤区域的一些特征值来供医生参考，辅助诊断",
+                        "点击图片可以查看大图，图片下方会显示钙化区域的一些特征值来供医生参考，辅助诊断",
+                    duration: 0,
+                    type: "success"
+                });
+            },
+            notice2() {
+                this.$notify({
+                    title: "请选择dcm文件上传",
+                    message:
+                        "目前只支持dcm文件上传，请选择正确的文件上传！",
                     duration: 0,
                     type: "success"
                 });

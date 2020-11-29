@@ -514,4 +514,4 @@ def morphological_geodesic_active_contour(gimage, iterations,
 
     print("最大像素：", Max, "最小像素：", Min)
     print("1的个数：", count)
-    return u
+    return u,count

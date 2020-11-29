@@ -1,8 +1,9 @@
 import cv2
 import numpy as np
+import math
 
 # 图片路径
-img = cv2.imread('G:\ghs_Work2018\\bavcloudJoe\\bavhandleback_flask\static\image\img_0000_0.png')
+img = cv2.imread('C:\\Users\Freeform\Documents\GitHub\\bavcloudJoe\\bavhandleback_flask\static\image\img_0000_0.png')
 xlable = []
 ylable = []
 
@@ -28,9 +29,17 @@ def choosetwopointsofimage(img_path):
     cv2.imshow("Please choose two points of the image", img)
     cv2.waitKey(0)
     if len(xlable) == 2 :
+        # cv2.destroyAllWindows()
         return xlable[0],ylable[0],xlable[1],ylable[1],'You are choosed two points of the image,please close the window'
     else :
         return None,None,None,None,'Please choose two points of the image'
+
+def caculateroi(xlable_0, ylable_0, xlable_1, ylable_1,len_a_b,roipixles,roilen):
+    perpixle = math.hypot(abs((int(xlable_0)-int(xlable_1))),abs((int(ylable_0)-int(ylable_1))))
+    perpixle = len_a_b/perpixle
+    roi_s = perpixle*perpixle*int(roipixles)
+    roi_l = int(roilen)*perpixle
+    return format(roi_s,'.4f'),format(roi_l,'.4f')
 
 if __name__ == '__main__':
     # cv2.namedWindow("image")

@@ -4,7 +4,7 @@ import os
 import shutil
 from datetime import timedelta
 
-from bavhandleback_flask.core.choosepointodimage import choosetwopointsofimage
+from bavhandleback_flask.core.choosepointodimage import choosetwopointsofimage, caculateroi
 from bavhandleback_flask.core.imagepreprocess import dicomconvertpng
 from bavhandleback_flask.core.imagepreprocess import example_starfish
 # import torch
@@ -50,13 +50,17 @@ def hello_world():
 def chooseruler():
     # requestDict =  request.form.get('comment')
     # img_path = request.form['imgpath']
-    img_path = "G:\ghs_Work2018\\bavcloudJoe\\bavhandleback_flask\static\image\img_0000_0.png"
+    roipixles = request.form['roipixles']
+    roilen = request.form['roilen']
+    img_path = "C:\\Users\Freeform\Documents\GitHub\\bavcloudJoe\\bavhandleback_flask\static\image\img_0000_0.png"
     xlable_0, ylable_0, xlable_1, ylable_1,return_message = choosetwopointsofimage(img_path)
+    len_a_b = 20
+    roi_s,roi_l = caculateroi(xlable_0, ylable_0, xlable_1, ylable_1,len_a_b,roipixles,roilen)
     if 'You are choosed two points of the image,please close the window'  == return_message :
         status = 200;
     else:
         status = 500;
-    return  jsonify({'status':status,'xlable_0':xlable_0, 'ylable_0':ylable_0, 'xlable_1':xlable_1, 'ylable_1':ylable_1,'return_message':return_message})
+    return  jsonify({'status':status,'roi_s':roi_s,'roi_l':roi_l,'xlable_0':xlable_0, 'ylable_0':ylable_0, 'xlable_1':xlable_1, 'ylable_1':ylable_1,'return_message':return_message})
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
@@ -76,16 +80,18 @@ def upload_file():
         # image_path = os.path.join(copy_dicom_path, file.filename)
         org_img_path,patient_info = dicomconvertpng(app.config['UPLOAD_FOLDER'], copy_image_path, patient_info=None)
         print(org_img_path,patient_info)
-        new_img_path = example_starfish(copy_image_path + "/" + org_img_path)
+        new_img_path,roipixles,roilen = example_starfish(copy_image_path + "/" + org_img_path)
         # pid, image_info = bavhandleback_flask.core.main.c_main(image_path, current_app.model)
         return jsonify({'status': 1,
                         'image_url': 'http://127.0.0.1:5003/static/image/' + org_img_path,
                         'draw_url': 'http://127.0.0.1:5003/static/handleimage/' + new_img_path,
-                      'patient_info': patient_info
+                      'patient_info': patient_info,
+                        'roipixles':roipixles,
+                        'roilen':roilen
                        })
         # return ""
 
-    # return jsonify({'status': 0})
+    return jsonify({'status': 0})
 
 
 @app.route("/download", methods=['GET'])

@@ -153,12 +153,12 @@ def example_starfish(org_img_path):
         callback = visual_callback_2d(imgcolor)
 
         # MorphGAC.
-        ms.morphological_geodesic_active_contour(gimg, iterations=26,
+        u,count = ms.morphological_geodesic_active_contour(gimg, iterations=26,
                                                  init_level_set=init_ls,
                                                  smoothing=4, threshold='auto',
                                                  balloon=-1, iter_callback=callback)
 
-        return "imag.jpg"
+        return "imag.jpg",count,0
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)

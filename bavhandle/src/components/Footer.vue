@@ -8,7 +8,7 @@ export default {
     name:'Footer',
     data(){
         return {
-            msg:'Copyright 2019'
+            msg:'欢迎使用主动脉瓣钙化辅助诊断系统       Copyright 2020'
         }
     }
 }

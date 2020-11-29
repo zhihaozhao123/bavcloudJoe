@@ -19,7 +19,7 @@ Vue.prototype.$http = axios
 
 const router = new VueRouter({
     routes: [
-        {path: "/App", component: App, meta: {title: "二叶式主动脉瓣钙化辅助诊断系统"},},
+        {path: "/App", component: App, meta: {title: "主动脉瓣钙化辅助诊断系统"},},
     ],
     mode: "history"
 })
